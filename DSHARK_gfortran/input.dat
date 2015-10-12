@@ -19,8 +19,8 @@ delta		= 0.001
 
 &accuracy
 NBessel		= 4
-acc_measure	= 1
-rf_error	= 1.0d-12
+acc_measure	= 0
+rf_error	= 1.0d-3
 int_error	= 1.0d-15
 /
 
