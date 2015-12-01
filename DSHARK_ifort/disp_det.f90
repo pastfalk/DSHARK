@@ -53,11 +53,12 @@ function disp_det(omega,k)
 
         !bi-kappa scenario
 
-        epsilon_xx=epsilon_xx+ (beta_ratio(m)-1.0) *mu(m)*q(m)**2
-        epsilon_yy=epsilon_yy+ (beta_ratio(m)-1.0) *mu(m)*q(m)**2
-        epsilon_zz=epsilon_zz+ (beta_ratio(m)-1.0) *mu(m)*q(m)**2 *(k*sin(theta))**2 / (k*cos(theta))**2
-        epsilon_zz=epsilon_zz+ 2.0*omega**2 *(2.0*kappa(m)-1.0)/(2.0*kappa(m)-3.0) *q(m)**2 / beta_para(m) / (k *cos(theta))**2
-        epsilon_xz=epsilon_xz- (beta_ratio(m)-1.0) *mu(m)*q(m)**2 *(k*sin(theta))/(k*cos(theta))
+        epsilon_xx=epsilon_xx+ (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2
+        epsilon_yy=epsilon_yy+ (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2
+        epsilon_zz=epsilon_zz+ (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2 *(k*sin(theta))**2 / (k*cos(theta))**2
+        epsilon_zz=epsilon_zz+ 2.0*omega**2 *(2.0*kappa(m)-1.0)/(2.0*kappa(m)-3.0) *dens(m)*q(m)**2 /&
+             & beta_para(m) / (k *cos(theta))**2
+        epsilon_xz=epsilon_xz- (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2 *(k*sin(theta))/(k*cos(theta))
 
 
         do n=-NBessel,NBessel
@@ -68,40 +69,41 @@ function disp_det(omega,k)
 
            call integrator(n,h1,h2,h3,1,intxx)
 
-           epsilon_xx=epsilon_xx+ 4.0*sqrt(2.0)*mu(m)**(3.0/2.0) *q(m)**4 * (kappa(m)-1.0/2.0)/&
+           epsilon_xx=epsilon_xx+ 4.0*sqrt(2.0)*mu(m)**(3.0/2.0) *dens(m)*q(m)**4 * (kappa(m)-1.0/2.0)/&
                 & (2.0*kappa(m)-3.0)**(3.0/2.0) * (kappa(m)+1)**(3.0/2.0) /(beta_perp(m)*&
                 & (k*sin(theta))**2) /(sqrt(beta_para(m))*k*cos(theta))*&
                 & n**2*(beta_ratio(m) * omega - n*(beta_ratio(m)-1.0) * mu(m)*q(m)) *intxx
 
            call integrator(n,h1,h2,h3,2,intyy)
 
-           epsilon_yy=epsilon_yy+ 2.0*sqrt(2.0) *sqrt(mu(m))*q(m)**2  *(kappa(m)-1.0/2.0)/sqrt(2.0*kappa(m)-3.0) *&
+           epsilon_yy=epsilon_yy+ 2.0*sqrt(2.0) *sqrt(mu(m))*dens(m)*q(m)**2  *(kappa(m)-1.0/2.0)/sqrt(2.0*kappa(m)-3.0) *&
                 & (kappa(m)+1)**(3.0/2.0) / (sqrt(beta_para(m)) *k*cos(theta)) * (beta_ratio(m) *&
                 & omega - n*(beta_ratio(m)-1.0) * mu(m)*q(m)) * intyy
 
            intzz=intxx
 
-           epsilon_zz=epsilon_zz+ 4.0*sqrt(2.0)/sqrt( mu(m))*q(m)**2 * (kappa(m)-1.0/2.0)/& 
+           epsilon_zz=epsilon_zz+ 4.0*sqrt(2.0)/sqrt( mu(m))*dens(m)*q(m)**2 * (kappa(m)-1.0/2.0)/& 
                 & (2.0*kappa(m)-3.0)**(3.0/2.0) *(kappa(m)+1)**(3.0/2.0) /beta_perp(m) /&
                 & sqrt(beta_para(m)) / (k*cos(theta))**3 * (beta_ratio(m) * omega - n*(beta_ratio(m) & 
                 & -1.0) * mu(m)*q(m))*(omega-n*mu(m)*q(m))**2 * intzz
 
            call integrator(n,h1,h2,h3,3,intxy)
 
-           epsilon_xy=epsilon_xy+4.0*i  * mu(m) * q(m)**3  * 1.0/sqrt(beta_perp(m)) / &
+           epsilon_xy=epsilon_xy+4.0*i  * mu(m) *dens(m)* q(m)**3  * 1.0/sqrt(beta_perp(m)) / &
                 & sqrt(beta_para(m))/(k*cos(theta))/(k*sin(theta))*(kappa(m)-1.0/2.0)/(2.0*kappa(m)-3.0)*&
                 & (kappa(m)+1)**(3.0/2.0) *n* (beta_ratio(m) *&
                 & omega - n*(beta_ratio(m)-1.0) * mu(m)*q(m)) * intxy
 
            intxz=intxx
 
-           epsilon_xz=epsilon_xz+4.0*sqrt(2.0) * sqrt(mu(m)) * q(m)**3 *  (kappa(m)-1.0/2.0)/(2.0*kappa(m)-3.0)**(3.0/2.0)  *&
+           epsilon_xz=epsilon_xz+4.0*sqrt(2.0) * sqrt(mu(m)) *dens(m)* q(m)**3 * &
+                & (kappa(m)-1.0/2.0)/(2.0*kappa(m)-3.0)**(3.0/2.0)  *&
                 & (kappa(m)+1)**(3.0/2.0) /beta_perp(m) /(k*sin(theta)) /sqrt(beta_para(m))/(k*cos(theta))**2 *&
                 & n * (beta_ratio(m) * omega - n*(beta_ratio(m)-1.0) * mu(m)*q(m))*(omega-n*mu(m)*q(m))*intxz
 
            intyz=intxy
 
-           epsilon_yz=epsilon_yz- 4.0*i *q(m)**2 * (kappa(m)-1.0/2.0)/(2.0*kappa(m)-3.0) *&
+           epsilon_yz=epsilon_yz- 4.0*i *dens(m)*q(m)**2 * (kappa(m)-1.0/2.0)/(2.0*kappa(m)-3.0) *&
                 & (kappa(m)+1)**(3.0/2.0) /sqrt(beta_perp(m)) *1.0/((k*cos(theta))**2 *&
                 & sqrt(beta_para(m)))* (beta_ratio(m) *&
                 & omega - n*(beta_ratio(m)-1.0) * mu(m)*q(m))*(omega-n*mu(m)*q(m))*intyz
@@ -112,8 +114,8 @@ function disp_det(omega,k)
 
         !bi-Maxwellian scenario
         
-        epsilon_xx=epsilon_xx+ (beta_ratio(m)-1.0) *mu(m)*q(m)**2
-        epsilon_yy=epsilon_yy+ (beta_ratio(m)-1.0) *mu(m)*q(m)**2
+        epsilon_xx=epsilon_xx+ (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2
+        epsilon_yy=epsilon_yy+ (beta_ratio(m)-1.0) *mu(m)*dens(m)*q(m)**2
 
         lambda=(k*sin(theta))**2 * beta_perp(m) / (2.0 * q(m)**2 * mu(m))
 
@@ -122,24 +124,27 @@ function disp_det(omega,k)
            zeta=(omega-n*mu(m)*q(m))/sqrt(beta_para(m))/(k*cos(theta))/sqrt(mu(m))
 
 
-           epsilon_xx=epsilon_xx + sqrt(mu(m)) * q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) * exp(-lambda) * n**2 *&
+           epsilon_xx=epsilon_xx + sqrt(mu(m)) *dens(m)* q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) * exp(-lambda) * n**2 *&
                 & Bessel_In(n,lambda) / lambda *(beta_ratio(m) * omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta)
 
-           epsilon_xy = epsilon_xy + i*sqrt(mu(m))*q(m)**2 /(k*cos(theta)) / sqrt(beta_para(m)) *n* (dBessel_In(n,lambda)-Bessel_In(n,lambda))*exp(-lambda) *&
+           epsilon_xy = epsilon_xy + i*sqrt(mu(m))*dens(m)*q(m)**2 /(k*cos(theta)) / sqrt(beta_para(m)) *n*&
+                & (dBessel_In(n,lambda)-Bessel_In(n,lambda))*exp(-lambda) *&
                 & (beta_ratio(m) *omega - (beta_ratio(m) -1.0)*n*mu(m)*q(m))* Z_func(zeta)
            
-           epsilon_xz = epsilon_xz - mu(m)*q(m)**3 / beta_perp(m)/ (k*sin(theta)) / (k*cos(theta))*&
+           epsilon_xz = epsilon_xz - mu(m)*dens(m)*q(m)**3 / beta_perp(m)/ (k*sin(theta)) / (k*cos(theta))*&
                 & (beta_ratio(m) * omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* n*Bessel_In(n,lambda)*exp(-lambda)*dZ_func(zeta)           
 
-           epsilon_yy = epsilon_yy + sqrt(mu(m)) * q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) *&
+           epsilon_yy = epsilon_yy + sqrt(mu(m)) *dens(m)* q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) *&
                 & (n**2 * Bessel_In(n,lambda) / lambda - 2.0*lambda*(dBessel_In(n,lambda)-Bessel_In(n,lambda)))*exp(-lambda) *&
                 & (beta_ratio(m)*omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta)
 
-           epsilon_yz = epsilon_yz + i/2.0 * q(m) * ( k*sin(theta))/(k*cos(theta)) *&
-                &  (beta_ratio(m)*omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* (dBessel_In(n,lambda)-Bessel_In(n,lambda)) * exp(-lambda) * dZ_func(zeta)
+           epsilon_yz = epsilon_yz + i/2.0 *dens(m)* q(m) * ( k*sin(theta))/(k*cos(theta)) *&
+                &  (beta_ratio(m)*omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))*&
+                & (dBessel_In(n,lambda)-Bessel_In(n,lambda)) * exp(-lambda) * dZ_func(zeta)
 
-           epsilon_zz = epsilon_zz -  q(m)**2 *(omega-n*mu(m)*q(m)) / beta_perp(m) /&
-                & (k*cos(theta))**2 *(omega*beta_ratio(m)- (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * Bessel_In(n,lambda)* exp(-lambda) * dZ_func(zeta)
+           epsilon_zz = epsilon_zz - dens(m)* q(m)**2 *(omega-n*mu(m)*q(m)) / beta_perp(m) /&
+                & (k*cos(theta))**2 *(omega*beta_ratio(m)- (beta_ratio(m)-1.0)*n*mu(m)*q(m)) *&
+                & Bessel_In(n,lambda)* exp(-lambda) * dZ_func(zeta)
 
         enddo
 

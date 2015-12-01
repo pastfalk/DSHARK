@@ -105,6 +105,8 @@ q_in         - Charge of the particles in units of the charge of the first parti
 
 mu_in 	     - Mass of the particles in units of the mass of the first particle species.
 
+dens_in	     - Density of the particles in units of the density of the first particle species.
+
 beta_para_in - Beta parameter parallel to the background magnetic field.
 
 beta_perp_in - Beta parameter perpendicular to the background magnetic field.
@@ -113,7 +115,7 @@ kappa_in     - Kappa parameter of the particles' distribution function.
 
 
 Note:
-If you need more than the two default particle species, just add additional parameter blocks below the two present &species blocks. The choice, which particle species is declared in the first &species block, is of major importance since the normalization of all output data depends on this choice. E.g., if you choose protons to be the first particle species, then all frequencies and growth rates will be given in units of the proton gyro frequency and the wavenumbers will be in units of the proton inertial length.
+If you need more than the two default particle species, just add additional parameter blocks below the two present &species blocks. The choice, which particle species is declared in the first &species block, is of major importance since the normalization of all output data depends on this choice. E.g., if you choose protons to be the first particle species, then all frequencies and growth rates will be given in units of the proton gyrofrequency and the wavenumbers will be in units of the proton inertial length.
 
 The chosen kappa value significantly affects the performance of DSHARK. The larger the kappa parameter, the more demanding is the evaluation of the modified plasma dispersion function and, hence, the slower is the program execution. If kappa exceeds a certain limit, kappa = 50, the code will switch from  bi-kappa distributions to the bi-Maxwellian limit which can be solved much faster. If you are interested in the dispersion properties of bi-kappa distributions with kappa >= 50, you can avoid the switch to the bi-Maxwellian case by manually changing the default limit in disp_det.f90. 
 

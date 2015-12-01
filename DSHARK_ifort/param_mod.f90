@@ -9,7 +9,8 @@ integer :: Nspecies
 real :: theta
 integer :: NBessel
 real, allocatable, dimension (:) :: mu
-integer, allocatable, dimension (:) :: q
+real, allocatable, dimension (:) :: q
+real, allocatable, dimension (:) :: dens
 real, allocatable, dimension (:) :: beta_para
 real, allocatable, dimension (:):: beta_perp
 real, allocatable, dimension (:) :: beta_ratio
