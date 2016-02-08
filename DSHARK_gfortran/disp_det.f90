@@ -128,7 +128,7 @@ function disp_det(omega,k)
 !           write(*,*) m, n, lambda, Bessel_In(n,lambda)
 
 
-           epsilon_xx=epsilon_xx + sqrt(mu(m))*dens(m)**(5.0/2.0) *q(m)**2 /sqrt(beta_para(m))/(k*cos(theta))*exp(-lambda)*&
+           epsilon_xx=epsilon_xx + sqrt(mu(m))*dens(m)**(3.0/2.0) *q(m)**2 /sqrt(beta_para(m))/(k*cos(theta))*exp(-lambda)*&
                 & n**2 *Bessel_In(n,lambda) / lambda *(beta_ratio(m) * omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta)
 
            epsilon_xy = epsilon_xy + i*sqrt(mu(m))*dens(m)**(3.0/2.0) *q(m)**2 /(k*cos(theta)) / sqrt(beta_para(m)) *n*&
