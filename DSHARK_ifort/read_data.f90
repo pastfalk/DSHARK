@@ -54,8 +54,7 @@ subroutine read_data(omega_start,increment,kstart,kend,ksteps)
 
   close(17)
 
-  beta_ratio(1)=beta_perp(1)/beta_para(1)
-  beta_ratio(2)=beta_perp(2)/beta_para(2)
+  beta_ratio=beta_perp/beta_para
 
   omega_start=omega_r+i*omega_i
   increment=increment_r+i*increment_i

@@ -1,43 +1,43 @@
 &wavenumber
-kstart		    = 0.02
-kend 	        = 0.10
-ksteps 	      = 16
+kstart		= 0.02
+kend 	       	= 0.10
+ksteps 	       	= 16
 /
 
 &initial_guess
-omega_r		    = 0.00001
-omega_i       = 0.01
-increment_r	  = 0.00001
-increment_i   = 0.001
+omega_r		= 0.000001
+omega_i        	= 0.01
+increment_r	= 0.000001
+increment_i    	= 0.001
 /
 
 &setup
-Nspecies	    = 2
-theta		      = 45.0
-delta		      = 0.00001
+Nspecies	= 2
+theta		= 45.0
+delta		= 0.00001
 /
 
 &accuracy
-NBessel		    = 4
-acc_measure	  = 0
-rf_error	    = 1.0d-3
-int_error	    = 1.0d-15
+NBessel		= 4
+acc_measure	= 0
+rf_error	= 1.0d-3
+int_error	= 1.0d-15
 /
 
 &species
-q_in		      = 1.0
-mu_in		      = 1.0
-dens_in		    = 1.0
+q_in		= 1.0
+mu_in		= 1.0
+dens_in		= 1.0
 beta_para_in	= 97.493
 beta_perp_in	= 94.493
-kappa_in	    = 50
+kappa_in	= 50
 /
 
 &species
-q_in		      =-1.0
-mu_in		      = 1836.0
-dens_in		    = 1.0
+q_in		=-1.0
+mu_in		= 1836.0
+dens_in		= 1.0
 beta_para_in	= 95.493
 beta_perp_in	= 95.493
-kappa_in	    = 50
+kappa_in	= 50
 /

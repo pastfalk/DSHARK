@@ -1,4 +1,4 @@
-objects=param_mod.o main.o disp_det.o intgrnd.o Zk_func.o Z_func.o dZ_func.o  integrator.o intdeiini.o intdei.o dBessel_Jn.o muller.o polyfit.o read_data.o  Bessel_In.o  dBessel_In.o
+objects=param_mod.o main.o disp_det.o intgrnd.o Zk_func.o Z_func.o dZ_func.o  integrator.o intdeiini.o intdei.o dBessel_Jn.o muller.o polyfit.o read_data.o  Bessel_In.o  dBessel_In.o cerror.o cont_frac.o
 f90comp = gfortran
 options=  -fdefault-real-8 
 
@@ -36,11 +36,17 @@ dBessel_Jn.o: dBessel_Jn.f90
 Zk_func.o: param_mod.mod Zk_func.f90
 	$(f90comp) -c $(options)  Zk_func.f90
 
-Z_func.o: Z_func.f90
+Z_func.o: param_mod.mod Z_func.f90
 	$(f90comp) -c $(options)  Z_func.f90
 
 dZ_func.o: dZ_func.f90
 	$(f90comp) -c $(options)  dZ_func.f90
+
+cerror.o: param_mod.mod cerror.f90
+	$(f90comp) -c $(options)  cerror.f90
+
+cont_frac.o: cont_frac.f90
+	$(f90comp) -c $(options)  cont_frac.f90
 
 muller.o: param_mod.mod muller.f90
 	$(f90comp) -c $(options)  muller.f90

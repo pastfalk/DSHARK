@@ -15,6 +15,9 @@ function disp_det(omega,k)
   complex :: omega, disp_det
   real :: k
 
+  complex :: disp_det2
+
+
   complex :: h1
   real :: h2
   integer :: h3
@@ -44,6 +47,9 @@ function disp_det(omega,k)
   epsilon_xx=epsilon_xx+(delta*omega)**2 
   epsilon_yy=epsilon_yy+(delta*omega)**2 
   epsilon_zz=epsilon_zz+(delta*omega)**2 
+
+
+  disp_det2=(delta*omega)**2 - k**2
 
 
   do m=1,Nspecies
@@ -123,11 +129,7 @@ function disp_det(omega,k)
         do n=-NBessel,NBessel
 
            zeta=(omega-n*mu(m)*q(m))/sqrt(beta_para(m))/(k*cos(theta))/sqrt(mu(m)) *sqrt(dens(m))
-
-
-!           write(*,*) m, n, lambda, Bessel_In(n,lambda)
-
-
+           
            epsilon_xx=epsilon_xx + sqrt(mu(m))*dens(m)**(3.0/2.0) *q(m)**2 /sqrt(beta_para(m))/(k*cos(theta))*exp(-lambda)*&
                 & n**2 *Bessel_In(n,lambda) / lambda *(beta_ratio(m) * omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta)
 
@@ -151,11 +153,44 @@ function disp_det(omega,k)
                 & (k*cos(theta))**2 *(omega*beta_ratio(m)-&
                 (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * Bessel_In(n,lambda)* exp(-lambda) * dZ_func(zeta)
 
+
+
+
         enddo
 
      endif
 
+     
+     sign=1.0
+     zeta=(omega+sign*mu(m)*q(m))/sqrt(beta_para(m))/k/sqrt(mu(m)) *sqrt(dens(m))
+
+     disp_det2=disp_det2+dens(m)   *q(m)**2 * mu(m) *(beta_ratio(m)-1.0)
+     disp_det2=disp_det2+dens(m)**(1.5)     *q(m)**2 *sqrt(mu(m)) /sqrt(beta_para(m)) /k *&
+          & (beta_ratio(m) *omega+sign*q(m)*mu(m)*(beta_ratio(m)-1.0)) *Z_func(zeta)
+
+!     write(*,*) m, '1', dens(m)*q(m)**2 * mu(m) *(beta_ratio(m)-1.0)
+!     write(*,*) m, '2', dens(m)**(1.5)*q(m)**2 *sqrt(mu(m)) /sqrt(beta_para(m)) /k *&
+!          & (beta_ratio(m) *omega+sign*q(m)*mu(m)*(beta_ratio(m)-1.0)) *Z_func(zeta)
+
+!     write(*,*) 'Z1:', Z_func(zeta/sqrt(2.0))
+!     write(*,*) 'Z2:', Z_func(zeta*sqrt(2.0))
+
+
   enddo
+
+
+!  write(*,*) 'e_xx: ', epsilon_xx
+!  write(*,*) 'e_yy: ', epsilon_yy
+!  write(*,*) 'e_zz: ', epsilon_zz
+!  write(*,*) 'e_xy: ', epsilon_xy
+!  write(*,*) 'e_xz: ', epsilon_xz
+!  write(*,*) 'e_yz: ', epsilon_yz
+
+
+
+
+
+
 
   !the dispersion relation for a collisionless plasma can be generally written as:
   !0=det(kk - 1k^2 + omega^2/c^2 * epsilon)
@@ -168,5 +203,13 @@ function disp_det(omega,k)
        & (epsilon_xx-(k*cos(theta))**2 )* epsilon_yz**2 +&
        & (epsilon_zz - (k*sin(theta))**2  )*epsilon_xy**2
 
+
+  
+
+
+!disp_det=disp_det2
+!  write(*,*) 'disp_det: ', disp_det
+!  write(*,*) 'disp_det2:', disp_det2
+!  stop
 
 end function disp_det
