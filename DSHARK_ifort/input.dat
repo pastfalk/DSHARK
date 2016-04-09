@@ -18,10 +18,10 @@ delta		= 0.00001
 /
 
 &accuracy
-NBessel		= 4
 acc_measure	= 0
 rf_error	= 1.0d-3
 int_error	= 1.0d-15
+eps_error	= 1.0d-6
 /
 
 &species

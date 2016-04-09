@@ -11,19 +11,17 @@ function intgrnd(z,n,h1,h2,h3,case)
   implicit none
 
   real :: z
-
   integer :: case, n
   complex :: h1
   real :: h2
   integer :: h3
-
   complex :: intgrnd
   real :: dBessel_Jn
   complex :: Zk_func
 
   external dBessel_Jn
   external Zk_func
-
+  
   !choose one of three different integrands
  
   if ( case.eq. 1) then
@@ -38,7 +36,11 @@ function intgrnd(z,n,h1,h2,h3,case)
      !integrand appearing in epsilon_xy and epsilon_yz
      intgrnd = sqrt(z-1.0)*Bessel_Jn(n, h2*sqrt(z-1.0))*dBessel_Jn(n, h2*sqrt(z-1.0))/(z**h3) *Zk_func(h1/sqrt(z),h3-1)
 
-  end if
 
+  else if(case.eq.4) then
+     !integrand for the Z function
+     intgrnd=exp(-z*z) *(1.0/(z-h1) - 1.0/(z+h1))
+
+  end if
 
 end function intgrnd

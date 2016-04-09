@@ -3,15 +3,12 @@
 !! \param y array contaning the complex frequencies of the previously derived solutions
 !! \param omega_start predicted frequency for the subsequent wavenumber which is used as initial guess for following iteration
 subroutine polyfit(x,y,omega_start)
-
   implicit none
 
   real, dimension(3,3) :: V, Vinv, adj
   real :: det
-
   real, dimension(4) :: x
   complex, dimension(3) :: y
-
   complex :: omega_start
   complex :: a1,a2,a3
 

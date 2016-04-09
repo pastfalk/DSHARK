@@ -2,12 +2,12 @@
 !! \param zeta argument of the modified plasma dispersion function
 !! \param kap value of kappa parameter
 function Zk_func(zeta,kap)
-
   use param_mod
+  implicit none
 
   complex :: zeta, p, Zk_func
   real  :: fac_ratio
-  integer :: r, j, kap
+  integer :: r, l, kap
   
   p=(0.0,0.0)
 

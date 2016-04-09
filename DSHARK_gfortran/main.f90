@@ -1,7 +1,6 @@
 !> Scans through the requested wavenumber interval, computes corresponding frequencies and writes them to output file
 program main
   use param_mod
-  
   implicit none
 
   complex :: omega_start, increment
@@ -19,6 +18,7 @@ program main
   call read_data(omega_start, increment, kstart, kend, ksteps)
   
   allocate(krange(ksteps),solution(ksteps))
+
   dk=(kend-kstart)/(1.0*ksteps)
   do n=1,ksteps
      krange(n)=kstart+(n-1)*dk

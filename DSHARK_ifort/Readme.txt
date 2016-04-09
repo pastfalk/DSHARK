@@ -1,7 +1,7 @@
 DSHARK - A dispersion solver for homogeneous plasmas with anisotropic kappa distributions 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is a manual for the Fortran-90 code DSHARK containing a short description of the program, an explanation of the input parameters and some advices for an efficient usage of the code. Note that this code version is adapted to the Intel Fortran Compiler (ifort).
+This is a manual for the Fortran-90 code DSHARK containing a short description of the program, an explanation of the input parameters and some advices for an efficient usage of the code. Note that this code version is adapted to the GNU Fortran Compiler (gfortran).
 
 General remarks
 ---------------
@@ -83,13 +83,13 @@ Delta gives a measure for the magnetization of the plasma. Low delta corresponds
 
 &accuracy
 
-NBessel     - Index up to which the sum over the Bessel functions in the dielectric tensor components is carried out. In general, NBessel=4 gives sufficient accuracy. However, especially for high k_perp=k*sin(theta) you should always check for the convergence of your solutions by trying higher NBessel.
-
 acc_measure - Determines the way, the accuracy of the Muller iterated roots is computed. Choose acc_measure=0 for the relative difference between two successive roots, whereas for acc_measure=1, DSHARK computes the backward error, i.e. how close the determinant of the dispersion tensor is to zero, for the current root.  The former is more reliable but also more demanding than the latter.
 
 rf_error    - The 'root finding error' gives the exit-condition for the Muller iteration. It depends on the chosen accuracy measure. For acc_measure=0, an error of 1.0d-2 or 1.0d-3 produces good accuracy, whereas for acc_measure=1 an error of 1.0d-12 generally gives good results. But, of course, the choice depends on the accuracy requested by the user.
 
 int_error   - The 'integration error' gives the exit condition for the numerical integrations. Generally, it is chosen to be 1.0d-15 which gives good accuracy and great performance.
+
+eps_error   - The 'epsilon error' gives the exit condition for the sum over the Bessel index n. Once the relative contribution of the computed dielectric tensor components for a given n gets smaller than the given eps_error, the code exits the loop over the n in disp_det.f90. This ensures that the code 
 
 
 Note:

@@ -6,11 +6,12 @@
 !! \param ksteps number of steps in the wavenumber interval provided by input.dat
 subroutine read_data(omega_start,increment,kstart,kend,ksteps)
   use param_mod
+  implicit none
   real :: q_in, mu_in, dens_in, beta_para_in, beta_perp_in
   integer :: kappa_in
-  real :: kstart, kend, dk
+  real :: kstart, kend
   integer :: ksteps, n
-  complex :: omega_start, D, increment
+  complex :: omega_start, increment
   real :: omega_r, omega_i, increment_r, increment_i
 
   !define namelists and read input data using namelists
@@ -25,7 +26,11 @@ subroutine read_data(omega_start,increment,kstart,kend,ksteps)
      &  Nspecies, theta, delta
 
   namelist /accuracy/ &
-     &  NBessel, acc_measure, rf_error, int_error
+     &  acc_measure, rf_error, int_error, eps_error
+
+
+  namelist /species/ &
+     & q_in, mu_in, dens_in, beta_para_in, beta_perp_in, kappa_in
 
   open(unit=17,status='old',file='input.dat')
   read(17,wavenumber)
@@ -36,13 +41,10 @@ subroutine read_data(omega_start,increment,kstart,kend,ksteps)
   allocate(mu(Nspecies),q(Nspecies),dens(Nspecies),kappa(Nspecies))
   allocate(beta_para(Nspecies),beta_perp(Nspecies),beta_ratio(Nspecies))
 
-
   do n=1,Nspecies
-
-     namelist /species/ &
-          & q_in, mu_in, dens_in, beta_para_in, beta_perp_in, kappa_in 
-
+          
      read(17,species)
+
      q(n)=q_in
      mu(n)=mu_in
      dens(n)=dens_in

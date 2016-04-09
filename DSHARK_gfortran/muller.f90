@@ -3,8 +3,8 @@
 !! \param k considered wavenumber
 !! \param sol approximated root of the dispersion relation obtained from Muller iteration
 subroutine muller(omega_start,k,sol)
-
   use param_mod
+  implicit none
 
   real :: k
   complex :: omega_start, sol, disp_det

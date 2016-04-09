@@ -7,11 +7,11 @@
 !! \param sol solution of the numerical integration
 subroutine integrator(n,h1,h2,h3,case,sol)
   use param_mod
+  implicit none
   integer :: case, n
   complex :: h1
   real  :: h2
   integer :: h3
-
   real :: a
   complex :: sol, intgrnd
   integer :: lenaw
@@ -20,7 +20,7 @@ subroutine integrator(n,h1,h2,h3,case,sol)
 
   external intgrnd
 
-  tiny = 1.0d-307
+  tiny = 10.0**(-307)
   lenaw=8000
 
   allocate(aw(0 : lenaw - 1))

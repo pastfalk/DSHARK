@@ -1,12 +1,11 @@
-!> Computes the plasma dispersion function using J-pole expansion with J=8 (see for example Roennmark 1983)
+!> Computes the plasma dispersion function using the error function or - in case of high zeta - a continued fraction formula (for more details, see Fried and Conte 1961)
 !! \param zeta complex argument of the plasma dispersion function
 function Z_func(zeta)
   use param_mod
+  implicit none
 
   complex :: Z_func, zeta
   complex :: error_func
-
-
 
   if(abs(real(zeta)).lt.26.0) then
 
@@ -14,10 +13,9 @@ function Z_func(zeta)
      Z_func=i*sqrt(pi)*exp(-zeta*zeta)*(1.0+error_func)
 
   else
+
      call cont_frac(zeta,Z_func)
 
   endif
-
-
 
 end function Z_func

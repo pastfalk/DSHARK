@@ -41,10 +41,8 @@ subroutine cerror( z, cer )
   complex :: cr
   complex :: cs
   integer :: k2
-  !  real :: pi
   complex :: z
   complex :: z1
-
 
   a0 = abs ( z )
   c0 = exp ( - z * z )
@@ -62,7 +60,7 @@ subroutine cerror( z, cer )
      do k2 = 1, 120
         cr = cr * z1 * z1 / ( k2 + 0.5 )
         cs = cs + cr
-        if ( abs ( cr / cs ) .lt. 1.0D-15 ) then
+        if ( abs ( cr / cs ) .lt. 10.0**(-15) ) then
            exit
         end if
      end do
@@ -76,7 +74,7 @@ subroutine cerror( z, cer )
      do k2 = 1, 13
         cr = -cr * ( k2 - 0.5 ) / ( z1 * z1 )
         cl = cl + cr
-        if ( abs ( cr / cl ) .lt. 1.0D-15 ) then
+        if ( abs ( cr / cl ) .lt. 10.0**(-15) ) then
            exit
         end if
      end do
@@ -89,5 +87,4 @@ subroutine cerror( z, cer )
      cer = -cer
   end if
 
-  return
 end subroutine cerror

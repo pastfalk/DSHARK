@@ -10,7 +10,6 @@
 !! \param i approximation to the integral
 !! \param err estimate of the absolute error
 subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
-
   ! intdei
   !     [description]
   !         I = integral of f(x) over (a,infinity), 
@@ -60,7 +59,7 @@ subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
   !                            3. f(x) has oscillatory factor 
   !                               and decay of f(x) is very slow 
   !                               as x -> infinity.
-  
+  implicit none
   complex :: f
   real :: a, aw(0 : *)
   complex :: i, ir, fp, fm, iback, irback
@@ -75,8 +74,8 @@ subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
   real :: epsh, errt, errh, errd, h
 
   noff = 5
-  lenawm = int(aw(0) + 0.5d0)
-  nk = int(aw(1) + 0.5d0)
+  lenawm = int(aw(0) + 0.5)
+  nk = int(aw(1) + 0.5)
   epsh = aw(4)
   i = f(a + aw(noff),n,h1,h2,h3,case)
   ir = i * aw(noff + 1)
@@ -149,7 +148,7 @@ subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
      if (abs(fp) .gt. errt .and. j .lt. k) goto 40
      if (k .lt. klim) goto 20
      errd = h * (abs(i - 2 * iback) + abs(ir - 2 * irback))
-     h = h * 0.5d0
+     h = h * 0.5
      m = m * 2
      klim = 2 * klim - noff
   end do

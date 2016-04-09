@@ -3,8 +3,8 @@
 !! \param k considered wavenumber
 !! \param sol approximated root of the dispersion relation obtained from Muller iteration
 subroutine muller(omega_start,k,sol)
-
   use param_mod
+  implicit none
 
   real :: k
   complex :: omega_start, sol, disp_det
@@ -60,7 +60,8 @@ subroutine muller(omega_start,k,sol)
 
        !relative difference between two successive roots
        !more reliable than backward error, but more demanding (slower convergence of iteration)
-       if ((abs(real(omega(4))/real(omega(3))-1.0) .lt. rf_error) .and.  (abs(aimag(omega(4))/aimag(omega(3))-1.0) .lt. rf_error)) exit
+       if ((abs(real(omega(4))/real(omega(3))-1.0) .lt. rf_error) .and. &
+            (abs(aimag(omega(4))/aimag(omega(3))-1.0) .lt. rf_error)) exit
 
     else if(acc_measure==1) then
 
@@ -78,7 +79,8 @@ subroutine muller(omega_start,k,sol)
     endif
 
     !stop iteration if last step was ineffective
-    if( (abs((real(fx(4))-real(fx(3)))/real(fx(4))) .lt. 10.0**(-12)).and. ( abs((aimag(fx(4))-aimag(fx(3)))/aimag(fx(4))) .lt. 10.0**(-12))) then
+    if( (abs((real(fx(4))-real(fx(3)))/real(fx(4))) .lt. 10.0**(-12)).and. &
+         ( abs((aimag(fx(4))-aimag(fx(3)))/aimag(fx(4))) .lt. 10.0**(-12))) then
        write(*,*) 'Last step in Muller iteration was ineffective'
        exit
     endif
