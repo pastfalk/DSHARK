@@ -1,4 +1,4 @@
-subroutine cerror( z, cer )
+subroutine cerror( z_in, cer_sol )
   use param_mod
   !*****************************************************************************80
   !
@@ -34,57 +34,64 @@ subroutine cerror( z, cer )
   !
   implicit none
 
-  real :: a0
-  complex :: c0
-  complex :: cer
-  complex :: cl
-  complex :: cr
-  complex :: cs
+  real(kind=16) :: a0
+  complex(kind=16) :: c0
+  complex(kind=16) :: cer
+  complex :: cer_sol
+  complex(kind=16) :: cl
+  complex(kind=16) :: cr
+  complex(kind=16) :: cs
   integer :: k2
-  complex :: z
-  complex :: z1
+  complex :: z_in
+  complex(kind=16) :: z
+  complex(kind=16) :: z1
+
+
+  z=z_in
 
   a0 = abs ( z )
   c0 = exp ( - z * z )
 
   z1 = z
 
-  if ( real (z) .lt. 0.0 ) then
+  if ( real (z) .lt. 0.0_16 ) then
      z1 = - z
   end if
 
-  if ( a0 .le. 5.8 ) then    
+  if ( a0 .le. 5.8_16 ) then    
 
      cs = z1
      cr = z1
      do k2 = 1, 120
-        cr = cr * z1 * z1 / ( k2 + 0.5 )
+        cr = cr * z1 * z1 / ( k2 + 0.5_16 )
         cs = cs + cr
-        if ( abs ( cr / cs ) .lt. 10.0**(-15) ) then
+        if ( abs ( cr / cs ) .lt. 10.0_16**(-15) ) then
            exit
         end if
      end do
 
-     cer = 2.0 * c0 * cs / sqrt ( pi )
+     cer = 2.0_16 * c0 * cs / sqrt ( 1.0_16*pi )
 
   else
 
-     cl = 1.0 / z1              
+     cl = 1.0_16 / z1              
      cr = cl
      do k2 = 1, 13
-        cr = -cr * ( k2 - 0.5 ) / ( z1 * z1 )
+        cr = -cr * ( k2 - 0.5_16 ) / ( z1 * z1 )
         cl = cl + cr
-        if ( abs ( cr / cl ) .lt. 10.0**(-15) ) then
+        if ( abs ( cr / cl ) .lt. 10.0_16**(-15) ) then
            exit
         end if
      end do
 
-     cer = 1.0 - c0 * cl / sqrt ( pi )
+     cer = 1.0_16 - c0 * cl / sqrt ( 1.0_16*pi )
 
   end if
 
-  if ( real ( z) .lt. 0.0 ) then
+  if ( real ( z) .lt. 0.0_16 ) then
      cer = -cer
   end if
+
+  cer_sol=cer
 
 end subroutine cerror
