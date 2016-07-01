@@ -59,9 +59,13 @@ subroutine muller(omega_start,k,sol)
     if(acc_measure==0) then
 
        !relative difference between two successive roots
-       !more reliable than backward error, but more demanding (slower convergence of iteration)
-       if ((abs(real(omega(4))/real(omega(3))-1.0) .lt. rf_error) .and. &
-            (abs(aimag(omega(4))/aimag(omega(3))-1.0) .lt. rf_error)) exit
+       if (((abs(real(omega(4))/real(omega(3))-1.0) .lt. rf_error) .and. &
+            & (abs(aimag(omega(4))/aimag(omega(3))-1.0) .lt. rf_error)) .or.&
+            & (( abs(real(omega(4))).lt.10.0**(-12)).and.( abs(real(omega(3))).lt.10.0**(-12)).and.&
+            & (abs(aimag(omega(4))/aimag(omega(3))-1.0) .lt. rf_error)) .or.&
+            & (( abs(aimag(omega(4))).lt.10.0**(-12)).and.( abs(aimag(omega(3))).lt.10.0**(-12)).and.&
+            & (abs(real(omega(4))/real(omega(3))-1.0) .lt. rf_error))) exit
+       
 
     else if(acc_measure==1) then
 

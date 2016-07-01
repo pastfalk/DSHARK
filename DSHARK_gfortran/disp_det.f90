@@ -28,6 +28,9 @@ function disp_det(omega,k)
   integer :: m, n
 
   complex :: Z_func, dZ_func
+  complex :: zf1, dzf1
+  complex :: zf2, dzf2
+
   real :: exp_Bessel_In, exp_dBessel_In
   real :: expBes, expdBes
 
@@ -291,28 +294,43 @@ function disp_det(omega,k)
            if(n.eq.0) then
               zeta1=omega/sqrt(beta_para(m))/(k*cos(theta))/sqrt(mu(m)) *sqrt(dens(m))
 
+              zf1=Z_func(zeta1)
+              dzf1=dZ_func(zeta1)
+
               epsilon_yy = epsilon_yy - sqrt(mu(m)) *dens(m)**1.5 * q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) *&
-                   & (2*lambda*(expdBes-expBes)) *(beta_ratio(m)*omega)*Z_func(zeta1)
+                   & (2*lambda*(expdBes-expBes)) *(beta_ratio(m)*omega)*zf1
 
               epsilon_yz = epsilon_yz + i/2.0 *dens(m)* q(m) * ( k*sin(theta))/(k*cos(theta)) *&
-                   &  (beta_ratio(m)*omega)* (expdBes-expBes) *dZ_func(zeta1)
+                   &  (beta_ratio(m)*omega)* (expdBes-expBes) *dzf1
 
 
               epsilon_zz = epsilon_zz - dens(m)**2 * q(m)**2 *omega / beta_perp(m) /&
-                   & (k*cos(theta))**2 * omega*beta_ratio(m) * expBes * dZ_func(zeta1) 
+                   & (k*cos(theta))**2 * omega*beta_ratio(m) * expBes * dzf1 
 
            else
 
               zeta1=(omega-n*mu(m)*q(m))/sqrt(beta_para(m))/(k*cos(theta))/sqrt(mu(m)) *sqrt(dens(m))
               zeta2=(omega+n*mu(m)*q(m))/sqrt(beta_para(m))/(k*cos(theta))/sqrt(mu(m)) *sqrt(dens(m))
 
+
+              if(esc(1).or.esc(2).or.esc(4)) then
+                 zf1=Z_func(zeta1)
+                 zf2=Z_func(zeta2)
+               endif
+
+              if(esc(3).or.esc(5).or.esc(6)) then
+                 dzf1=dZ_func(zeta1)                
+                 dzf2=dZ_func(zeta2)
+              endif
+
+
               if(esc(1)) then
 
                  del_xx=sqrt(mu(m))*dens(m)**1.5 *q(m)**2 /sqrt(beta_para(m))/(k*cos(theta))*&
-                      & n**2 *expBes / lambda *(beta_ratio(m) * omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta1)+&
+                      & n**2 *expBes / lambda *(beta_ratio(m) * omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*zf1+&
                       
                       & sqrt(mu(m))*dens(m)**1.5 *q(m)**2 /sqrt(beta_para(m))/(k*cos(theta))*&
-                      & n**2 *expBes / lambda *(beta_ratio(m) * omega + (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta2)
+                      & n**2 *expBes / lambda *(beta_ratio(m) * omega + (beta_ratio(m)-1.0)*n*mu(m)*q(m))*zf2
 
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_xx)/ real(epsilon_xx)).gt.eps_error).or. &
@@ -329,11 +347,11 @@ function disp_det(omega,k)
 
                  del_yy = sqrt(mu(m)) *dens(m)**1.5 * q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) *&
                       & (n**2 * expBes / lambda - 2*lambda*(expdBes-expBes)) *&
-                      & (beta_ratio(m)*omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta1)+&
+                      & (beta_ratio(m)*omega - (beta_ratio(m)-1.0)*n*mu(m)*q(m))*zf1+&
                       
                       sqrt(mu(m)) *dens(m)**1.5 * q(m)**2 / sqrt(beta_para(m)) / (k*cos(theta)) *&
                       & (n**2 * expBes / lambda - 2*lambda*(expdBes-expBes)) *&
-                      & (beta_ratio(m)*omega + (beta_ratio(m)-1.0)*n*mu(m)*q(m))*Z_func(zeta2)
+                      & (beta_ratio(m)*omega + (beta_ratio(m)-1.0)*n*mu(m)*q(m))*zf2
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_yy)/ real(epsilon_yy)).gt.eps_error).or. &
                       & (abs(aimag(del_yy)/aimag(epsilon_yy)).gt.eps_error)))) then
@@ -349,11 +367,11 @@ function disp_det(omega,k)
 
                  del_zz = - dens(m)**2 * q(m)**2 *(omega-n*mu(m)*q(m)) / beta_perp(m) /&
                       & (k*cos(theta))**2 *(omega*beta_ratio(m)-&
-                      & (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * expBes * dZ_func(zeta1) -&
+                      & (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * expBes * dzf1 -&
                       
                       & dens(m)**2 * q(m)**2 *(omega+n*mu(m)*q(m)) / beta_perp(m) /&
                       & (k*cos(theta))**2 *(omega*beta_ratio(m)+&
-                      & (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * expBes * dZ_func(zeta2)
+                      & (beta_ratio(m)-1.0)*n*mu(m)*q(m)) * expBes * dzf2
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_zz)/ real(epsilon_zz)).gt.eps_error).or. &
                       & (abs(aimag(del_zz)/aimag(epsilon_zz)).gt.eps_error)))) then
@@ -368,10 +386,10 @@ function disp_det(omega,k)
               if(esc(4)) then
 
                  del_xy = i*sqrt(mu(m))*dens(m)**1.5 *q(m)**2 /(k*cos(theta)) / sqrt(beta_para(m)) *n*&
-                      & (expdBes-expBes) *(beta_ratio(m) *omega - (beta_ratio(m) -1.0)*n*mu(m)*q(m))* Z_func(zeta1) +&
+                      & (expdBes-expBes) *(beta_ratio(m) *omega - (beta_ratio(m) -1.0)*n*mu(m)*q(m))* zf1 +&
                       
                       & (-i)*sqrt(mu(m))*dens(m)**1.5 *q(m)**2 /(k*cos(theta)) / sqrt(beta_para(m)) *n*&
-                      & (expdBes-expBes) *(beta_ratio(m) *omega + (beta_ratio(m) -1.0)*n*mu(m)*q(m))* Z_func(zeta2)
+                      & (expdBes-expBes) *(beta_ratio(m) *omega + (beta_ratio(m) -1.0)*n*mu(m)*q(m))* zf2
 
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_xy)/ real(epsilon_xy)).gt.eps_error).or. &
@@ -387,10 +405,10 @@ function disp_det(omega,k)
               if(esc(5)) then
 
                  del_xz = -mu(m)*dens(m)**2 *q(m)**3 / beta_perp(m)/ (k*sin(theta)) / (k*cos(theta))*&
-                      & (beta_ratio(m) * omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* n*expBes*dZ_func(zeta1)+&
+                      & (beta_ratio(m) * omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* n*expBes*dzf1+&
                       
                       & mu(m)*dens(m)**2 *q(m)**3 / beta_perp(m)/ (k*sin(theta)) / (k*cos(theta))*&
-                      & (beta_ratio(m) * omega+n*mu(m)*q(m)*(beta_ratio(m)-1.0))* n*expBes*dZ_func(zeta2)           
+                      & (beta_ratio(m) * omega+n*mu(m)*q(m)*(beta_ratio(m)-1.0))* n*expBes*dzf2           
 
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_xz)/ real(epsilon_xz)).gt.eps_error).or. &
@@ -406,10 +424,10 @@ function disp_det(omega,k)
               if(esc(6)) then
 
                  del_yz = i/2.0 *dens(m)* q(m) * ( k*sin(theta))/(k*cos(theta)) *&
-                      &  (beta_ratio(m)*omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* (expdBes-expBes) *dZ_func(zeta1)+&
+                      &  (beta_ratio(m)*omega-n*mu(m)*q(m)*(beta_ratio(m)-1.0))* (expdBes-expBes) *dzf1+&
                       
                       & i/2.0 *dens(m)* q(m) * ( k*sin(theta))/(k*cos(theta)) *&
-                      &  (beta_ratio(m)*omega+n*mu(m)*q(m)*(beta_ratio(m)-1.0))* (expdBes-expBes) *dZ_func(zeta2)
+                      &  (beta_ratio(m)*omega+n*mu(m)*q(m)*(beta_ratio(m)-1.0))* (expdBes-expBes) *dzf2
 
                  if((n.le.4).or.((n.gt.4).and.((abs(real(del_yz)/ real(epsilon_yz)).gt.eps_error).or. &
                       & (abs(aimag(del_yz)/aimag(epsilon_yz)).gt.eps_error)))) then
