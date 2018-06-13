@@ -1,3 +1,6 @@
+!> Computes the error function for a complex argument. The routine was written by Shanjie Zhang and Jianming Jin.
+!! \param z (complex) argument of the error function
+!! \param cer value of the error function for the given argument
 subroutine cerror( z_in, cer_sol )
   use param_mod
   !*****************************************************************************80
@@ -25,15 +28,8 @@ subroutine cerror( z_in, cer_sol )
   !    Wiley, 1996,
   !    ISBN: 0-471-11963-6,
   !    LC: QA351.C45.
-  ! 
-  !  Parameters:
-  !
-  !    Input, complex ( kind = 8 ) Z, the argument.
-  !
-  !    Output, complex ( kind = 8 ) CER, the function value.
   !
   implicit none
-
   real(kind=16) :: a0
   complex(kind=16) :: c0
   complex(kind=16) :: cer

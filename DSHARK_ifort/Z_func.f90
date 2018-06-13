@@ -3,7 +3,6 @@
 function Z_func(zeta)
   use param_mod
   implicit none
-
   complex :: Z_func, zeta
   complex :: error_func
 

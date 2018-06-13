@@ -2,7 +2,6 @@
 !! \param n index of the modified Bessel function
 !! \param z argument of the modified Bessel function
 function exp_dBessel_In(n,z)
-
   implicit none
   integer :: n
   real :: z

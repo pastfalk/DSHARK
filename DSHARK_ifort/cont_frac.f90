@@ -1,3 +1,6 @@
+!> Computes the plasma dispersion function from a continued fraction formula including the first three terms only
+!! \param zeta (complex) argument of the plasma dispersion function
+!! \param Z_func value of the plasma dispersion function
 subroutine cont_frac( zeta, Z_func )
   implicit none
   complex :: zeta

@@ -11,7 +11,7 @@ subroutine integrator(n,h1,h2,h3,case,sol)
   integer :: case, n
   complex :: h1
   real  :: h2
-  integer :: h3
+  real :: h3
   real :: a
   complex :: sol, intgrnd
   integer :: lenaw
@@ -29,7 +29,7 @@ subroutine integrator(n,h1,h2,h3,case,sol)
   a=1.0
 
   !initialize double exponential quadrature method
-  call intdeiini(lenaw, tiny, int_error, aw)
+  call intdeiini(lenaw, tiny, 10.0**(-14), aw)
 
   !perform integration using double exponential quadrature
   !upper boundary of integration is infinity

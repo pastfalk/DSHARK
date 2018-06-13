@@ -4,7 +4,6 @@
 !! \param omega_start predicted frequency for the subsequent wavenumber which is used as initial guess for following iteration
 subroutine polyfit(x,y,omega_start)
   implicit none
-
   real, dimension(3,3) :: V, Vinv, adj
   real :: det
   real, dimension(4) :: x

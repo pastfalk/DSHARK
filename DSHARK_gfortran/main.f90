@@ -2,10 +2,9 @@
 program main
   use param_mod
   implicit none
-
   complex :: omega_start, increment
   real :: start, finish
-  integer :: ksteps, n
+  integer :: nk, ik
   real :: kstart, kend, dk
   real, allocatable, dimension (:) :: krange
   complex, allocatable, dimension (:) :: solution
@@ -15,44 +14,46 @@ program main
   call cpu_time(start)
 
   !read parameters from input.dat
-  call read_data(omega_start, increment, kstart, kend, ksteps)
+  call read_data(omega_start, increment, kstart, kend, nk)
   
-  allocate(krange(ksteps),solution(ksteps))
+  allocate(krange(nk),solution(nk))
 
-  dk=(kend-kstart)/(1.0*ksteps)
-  do n=1,ksteps
-     krange(n)=kstart+(n-1)*dk
+  dk=(kend-kstart)/(1.0*nk)
+
+  do ik=1,nk
+     krange(ik)=kstart+(ik-1)*dk
   enddo
 
   !scan through wavenumber interval
-  do n=1,ksteps
+  do ik=1,nk
 
      write(*,*) ' '
-     write(*,*) '-------',n,'-------'
+     write(*,'(A7,I2,A10,F12.8)') '-------',ik,'------- k=', krange(ik)
+
+     omega_start=real(omega_start)+i*abs(aimag(omega_start))
+     
 
      !use Muller method to iterate root of dispersion relation
-     call muller(omega_start,krange(n),solution(n))
+     call muller(omega_start,krange(ik),solution(ik))
 
-     write(*,*) krange(n), '  ', solution(n)
+     write(*,'(A9,E20.10,A9,E20.10)')  '   omega:', real(solution(ik)), '   gamma:',aimag(solution(ik))
 
-     if ((n .ge. 3).and.(n .lt. ksteps))  then
+
+     if ((ik.ge.3).and.(ik.lt.nk))  then
 
         !if three subsequent solutions omega(k) are found, use quadratic polynomial fit 
         !to guess next starting frequency for Muller iteration
-        call polyfit(krange(n-2:n+1),solution(n-2:n),omega_start)
+        call polyfit(krange(ik-2:ik+1),solution(ik-2:ik),omega_start)
 
      else
 
         !for the first two solution omega(k) guess next starting frequency for Muller iteration
         !by raising the computed omega by an increment which is provided by the user
-        omega_start=solution(n)+increment
+        omega_start=solution(ik)+increment
 
      end if
 
-     write(*,*) 'start: ',  omega_start
-
-     write(7,103) krange(n), real(solution(n)), aimag(solution(n))
-103  format(1x, 3(1x, 1e14.7))
+     write(7,'(F12.8,E20.10,E20.10)') krange(ik), real(solution(ik)), aimag(solution(ik))
 
   enddo
 
@@ -63,7 +64,7 @@ program main
   close(7)
 
   deallocate(krange,solution)
-  deallocate(mu,q,kappa)
+  deallocate(mu,q,kappa,dens)
   deallocate(beta_para,beta_perp,beta_ratio)
 
 

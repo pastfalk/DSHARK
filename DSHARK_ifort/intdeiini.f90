@@ -66,4 +66,5 @@ subroutine intdeiini(lenaw, tiny, eps, aw)
   end if
   if (2 * k - noff - 6 .le. lenaw) goto 10
   aw(0) = k - 6
+
 end subroutine intdeiini

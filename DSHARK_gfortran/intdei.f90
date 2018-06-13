@@ -67,7 +67,7 @@ subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
   integer :: n
   complex :: h1
   real :: h2
-  integer :: h3
+  real :: h3
   integer :: case
 
   integer :: noff, lenawm, nk, k, j, jtmp, jm, m, klim
@@ -158,4 +158,5 @@ subroutine intdei(f, n,h1,h2,h3,case, a, aw, i, err)
   else
      err = err * (aw(2) * m)
   end if
+
 end subroutine intdei
