@@ -28,10 +28,7 @@ program main
   do ik=1,nk
 
      write(*,*) ' '
-     write(*,'(A7,I2,A10,F12.8)') '-------',ik,'------- k=', krange(ik)
-
-     omega_start=real(omega_start)+i*abs(aimag(omega_start))
-     
+     write(*,'(A7,I6,A10,F12.8)') '-------',ik,'------- k=', krange(ik)
 
      !use Muller method to iterate root of dispersion relation
      call muller(omega_start,krange(ik),solution(ik))
